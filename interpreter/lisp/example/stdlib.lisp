@@ -1,19 +1,3 @@
-set -x
-gcc -fsanitize=address -g lisp.c -o lisp
-
-./lisp << 'EOF'
-(car (quote (1 2 3)))
-(cdr (quote (1 2 3)))
-(cons 1 (quote (2 3)))
-(define second (lambda (lst) (car (cdr lst))))
-(second (quote (100 200 300)))
-"Hello, World!"
-(define msg "This is a string")
-msg
-(cons "First" (quote ("Second" "Third")))
-EOF
-
-./lisp << 'EOF'
 "=== 1. 邏輯與基礎工具 ==="
 (define null? (lambda (x) (if x 0 1)))
 (define not (lambda (x) (if x 0 1)))
@@ -68,25 +52,3 @@ EOF
   (lambda (lst) 
     (reverse-aux lst (quote ()))))
     
-"--- 測試：null? 與 not ---"
-(null? (quote ()))
-(null? (quote (1 2 3)))
-(not 1)
-
-"--- 測試：長度計算 (length) ---"
-(define my-list (quote (10 20 30 40)))
-(length my-list)
-
-"--- 測試：元素讀取 (cadr) ---"
-(cadr my-list)
-
-"--- 測試：串接 (append) 與反轉 (reverse) ---"
-(append (quote (1 2)) (quote (3 4)))
-(reverse my-list)
-
-"--- 測試：Map (全部平方) ---"
-(map square my-list)
-
-"--- 測試：Fold (計算總和) ---"
-(fold add 0 my-list)
-EOF
