@@ -1,0 +1,28 @@
+#!/bin/bash
+
+set -e
+
+cd "$(dirname "$0")"
+
+echo "=== Building httpd_ssl0 ==="
+gcc -o https/httpd_ssl0 https/httpd_ssl0.c \
+    src/ssl_socket.c src/ssl.c src/crypto.c src/sha.c src/aes.c \
+    src/bignum.c src/rsa.c src/certificate.c src/rand.c \
+    -I include
+
+if [ $? -ne 0 ]; then
+    echo "編譯失敗"
+    exit 1
+fi
+
+echo "=== httpd_ssl0 built successfully ==="
+echo ""
+echo "Usage: cd https && ./httpd_ssl0 [port] [cert] [key]"
+echo "  port:  port number (default 8443)"
+echo "  cert:  certificate file (default cert.pem)"
+echo "  key:   key file (default key.pem)"
+echo ""
+echo "Example:"
+echo "  cd https"
+echo "  ./httpd_ssl0"
+echo "  # Then test with: curl -k https://localhost:8443/"
